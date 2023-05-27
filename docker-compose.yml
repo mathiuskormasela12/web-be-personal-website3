@@ -1,0 +1,76 @@
+version: "3.8"
+
+volumes:
+  web-be-personal-website-db-vol:
+    name: web-be-personal-website-db-vol
+
+networks:
+  web-be-personal-website-network:
+    name: web-be-personal-website-network
+    driver: bridge
+
+services:
+  web-be-personal-website-database:
+    container_name: web-be-personal-website-database
+    image: mongo:latest
+    volumes:
+      - type: volume
+        source: web-be-personal-website-db-vol
+        target: /data/db
+    ports:
+      - protocol: tcp
+        published: 3002
+        target: 27017
+    deploy:
+      resources:
+        reservations:
+          cpus: "0.5"
+          memory: "500m"
+        limits: 
+          cpus: "1"
+          memory: "1gb"
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+    networks:
+      - web-be-personal-website-network
+
+  web-be-personal-website:
+    container_name: web-be-personal-website
+    image: mathius12/web-be-personal-website:1.0.0
+    networks:
+      - web-be-personal-website-network
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    deploy:
+      resources:
+        reservations:
+          cpus: "0.5"
+          memory: "500m"
+        limits: 
+          cpus: "1"
+          memory: "1gb"
+    ports:
+      - protocol: tcp
+        published: 8081
+        target: 9000
+    depends_on:
+      - web-be-personal-website-database
+    restart: always
+    environment:
+      SERVICE_PORT: 9000
+      SERVICE_WEB_CLIENTS: http://localhost:3000
+      SERVICE_APP_URL: http://localhost:9000
+      SERVICE_DB_HOST: web-be-personal-website-database
+      SERVICE_DB_PORT: 27017
+      SERVICE_DB_USER: root
+      SERVICE_DB_PASSWORD: root
+      SERVICE_DB_NAME: web-be-personal-website
+      SERVICE_JWT_ACCESS_TOKEN_SECRET_KEY: rahasia
+      SERVICE_JWT_ACCESS_TOKEN_EXPIRES_IN: 15m
+      SERVICE_JWT_REFRESH_TOKEN_SECRET_KEY: rahasia123
+      SERVICE_JWT_REFRESH_TOKEN_EXPIRES_IN: 30m
+      SERVICE_RATE_LIMITER_TTL: 60
+      SERVICE_RATE_LIMITER_LIMIT: 10
