@@ -1,14 +1,16 @@
 // ========== Auth Types
 // import all modules
+import mongoose from 'mongoose';
+import { User } from '../schemas/user.schema';
 import { RegisterDto } from './dto';
-import { HttpStatus } from '@nestjs/common';
+import { IResponse } from 'src/types';
 
-export interface IRegisterTestData<T> {
-  body: RegisterDto;
+export interface IUser extends User {
+  _id?: mongoose.Types.ObjectId;
+}
+
+export interface IRegisterTest {
+  body: Partial<RegisterDto>;
   message: string;
-  result: {
-    statusCode: HttpStatus;
-    data?: T | T[];
-    errors?: Record<string, string[]>;
-  };
+  result: IResponse<Partial<IUser>>;
 }

@@ -8,6 +8,7 @@ import { IResponse } from '../types';
 import { RegisterDto } from './dto';
 import { User } from '../schemas/user.schema';
 import { EncryptionService } from '../encryption/encryption.service';
+import { IUser } from './auth.types';
 
 @Injectable()
 export class AuthService {
@@ -18,7 +19,7 @@ export class AuthService {
 
   public async register(
     @Body() dto: RegisterDto,
-  ): Promise<IResponse<Partial<User>>> {
+  ): Promise<IResponse<Partial<IUser>>> {
     try {
       const user = await this.userModel
         .findOne({ email: this.encryptionService.encrypt(dto.email) })
@@ -27,11 +28,15 @@ export class AuthService {
       if (!user) {
         const hash = await bcrypt.hash(dto.password, 8);
         const encryptedEmail = this.encryptionService.encrypt(dto.email);
+        const encryptedFirstName = this.encryptionService.encrypt(
+          dto.firstName,
+        );
+        const encryptedLastName = this.encryptionService.encrypt(dto.lastName);
 
         try {
           const result = await this.userModel.create({
-            firstName: dto.firstName,
-            lastName: dto.lastName,
+            firstName: encryptedFirstName,
+            lastName: encryptedLastName,
             email: encryptedEmail,
             password: hash,
           });
@@ -40,7 +45,9 @@ export class AuthService {
             statusCode: HttpStatus.CREATED,
             data: {
               _id: result._id,
-              email: dto.email,
+              email: this.encryptionService.decrypt(result.email),
+              firstName: this.encryptionService.decrypt(result.firstName),
+              lastName: this.encryptionService.decrypt(result.lastName),
             },
           };
         } catch (err) {

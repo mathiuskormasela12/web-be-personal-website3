@@ -13,6 +13,18 @@ import { validate } from 'class-validator';
 @Injectable()
 export class ValidationPipe implements PipeTransform<any> {
   async transform(value: any, { metatype }: ArgumentMetadata) {
+    if (typeof value === 'undefined') {
+      throw new HttpException(
+        {
+          statusCode: HttpStatus.BAD_REQUEST,
+          errors: {
+            'req.body': 'Request body is required',
+          },
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
     if (!metatype || !this.toValidate(metatype)) {
       return value;
     }

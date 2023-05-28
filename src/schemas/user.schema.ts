@@ -13,8 +13,6 @@ export type UserDocument = HydratedDocument<User>;
   },
 })
 export class User {
-  _id?: string;
-
   @Prop({
     required: true,
     type: String,
@@ -31,6 +29,7 @@ export class User {
   @Prop({
     required: true,
     type: String,
+    index: true,
   })
   email: string;
 
