@@ -5,7 +5,13 @@ import { HydratedDocument } from 'mongoose';
 
 export type UserDocument = HydratedDocument<User>;
 
-@Schema()
+@Schema({
+  timestamps: {
+    currentTime(): number {
+      return Date.now();
+    },
+  },
+})
 export class User {
   @Prop({
     required: true,
@@ -31,6 +37,16 @@ export class User {
     type: String,
   })
   password: string;
+
+  @Prop({
+    type: Number,
+  })
+  createdAt: number;
+
+  @Prop({
+    type: Number,
+  })
+  updatedAt: number;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

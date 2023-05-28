@@ -4,9 +4,10 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { ServeStaticModule } from '@nestjs/serve-static';
+import { MongooseModule } from '@nestjs/mongoose';
 import { join } from 'path';
 import { AuthModule } from './auth/auth.module';
-import { MongooseModule } from '@nestjs/mongoose';
+import { EncryptionModule } from './encryption/encryption.module';
 
 @Module({
   imports: [
@@ -47,6 +48,7 @@ import { MongooseModule } from '@nestjs/mongoose';
       inject: [ConfigService],
     }),
 
+    EncryptionModule,
     AuthModule,
   ],
 })

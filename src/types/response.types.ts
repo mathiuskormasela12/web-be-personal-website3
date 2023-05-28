@@ -4,6 +4,6 @@ import { HttpStatus } from '@nestjs/common';
 
 export interface IResponse<T> {
   statusCode: HttpStatus;
-  data: T | T[];
+  data?: T | T[];
   errors?: Record<string, string[]>;
 }
