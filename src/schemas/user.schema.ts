@@ -13,6 +13,8 @@ export type UserDocument = HydratedDocument<User>;
   },
 })
 export class User {
+  _id?: string;
+
   @Prop({
     required: true,
     type: String,
@@ -41,12 +43,12 @@ export class User {
   @Prop({
     type: Number,
   })
-  createdAt: number;
+  createdAt?: number;
 
   @Prop({
     type: Number,
   })
-  updatedAt: number;
+  updatedAt?: number;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

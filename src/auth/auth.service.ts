@@ -38,7 +38,10 @@ export class AuthService {
 
           return {
             statusCode: HttpStatus.CREATED,
-            data: result,
+            data: {
+              _id: result._id,
+              email: dto.email,
+            },
           };
         } catch (err) {
           return {
