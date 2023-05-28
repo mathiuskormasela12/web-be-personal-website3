@@ -31,8 +31,8 @@ services:
           memory: "1gb"
     restart: always
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: root
+      MONGO_INITDB_ROOT_USERNAME: your-database-username
+      MONGO_INITDB_ROOT_PASSWORD: your-database-password
     networks:
       - web-be-personal-website-network
 
@@ -65,12 +65,12 @@ services:
       SERVICE_APP_URL: http://localhost:9000
       SERVICE_DB_HOST: web-be-personal-website-database
       SERVICE_DB_PORT: 27017
-      SERVICE_DB_USER: root
-      SERVICE_DB_PASSWORD: root
+      SERVICE_DB_USER: your-database-username
+      SERVICE_DB_PASSWORD: your-database-password
       SERVICE_DB_NAME: web-be-personal-website
-      SERVICE_JWT_ACCESS_TOKEN_SECRET_KEY: rahasia
+      SERVICE_JWT_ACCESS_TOKEN_SECRET_KEY: your-access-token-secret-key
       SERVICE_JWT_ACCESS_TOKEN_EXPIRES_IN: 15m
-      SERVICE_JWT_REFRESH_TOKEN_SECRET_KEY: rahasia123
+      SERVICE_JWT_REFRESH_TOKEN_SECRET_KEY: your-refresh-token-secret-key
       SERVICE_JWT_REFRESH_TOKEN_EXPIRES_IN: 30m
       SERVICE_RATE_LIMITER_TTL: 60
       SERVICE_RATE_LIMITER_LIMIT: 10
