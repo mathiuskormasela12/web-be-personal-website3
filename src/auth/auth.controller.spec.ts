@@ -2,12 +2,12 @@
 // import all modules
 import { Test, TestingModule } from '@nestjs/testing';
 import { HttpStatus } from '@nestjs/common';
+import { getModelToken } from '@nestjs/mongoose';
 import { validate } from 'class-validator';
 import { plainToInstance } from 'class-transformer';
 import mongoose from 'mongoose';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { getModelToken } from '@nestjs/mongoose';
 import { User } from '../schemas/user.schema';
 import { EncryptionService } from '../encryption/encryption.service';
 import { IRegisterTest } from './auth.types';
