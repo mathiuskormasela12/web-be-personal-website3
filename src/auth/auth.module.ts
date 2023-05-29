@@ -10,26 +10,26 @@ import { ValidationPipe } from '../pipes/validation.pipe';
 import { TransformInterceptor } from '../interceptors/transform.interceptor';
 
 @Module({
-  imports: [
-    // Import mongoose models
-    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
-  ],
-  controllers: [AuthController],
-  providers: [
-    // Binding Transform Interceptor
-    {
-      provide: APP_INTERCEPTOR,
-      useClass: TransformInterceptor,
-    },
+	imports: [
+		// Import mongoose models
+		MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
+	],
+	controllers: [AuthController],
+	providers: [
+		// Binding Transform Interceptor
+		{
+			provide: APP_INTERCEPTOR,
+			useClass: TransformInterceptor,
+		},
 
-    // Binding Validation Pipe
-    {
-      provide: APP_PIPE,
-      useClass: ValidationPipe,
-    },
+		// Binding Validation Pipe
+		{
+			provide: APP_PIPE,
+			useClass: ValidationPipe,
+		},
 
-    // Define Providers
-    AuthService,
-  ],
+		// Define Providers
+		AuthService,
+	],
 })
 export class AuthModule {}
